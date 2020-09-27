@@ -43,11 +43,6 @@ public class TopicController {
 		return topicService.deleteTopic(id);
 	}
 	
-	/// custom API
-	@GetMapping("/topic/{id}/des")
-	public String getTopicDes( @PathVariable String id) { 
-		return topicService.getTopicDes(id);
-	}
 	
 
 }

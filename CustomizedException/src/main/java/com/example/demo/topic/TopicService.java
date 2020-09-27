@@ -39,16 +39,6 @@ public class TopicService {
 		repo.deleteById(id);
 		return "deleted";
 	}
-
-	public String getTopicDes(String id) {
-		
-		Topic topic = repo.findById(id).orElse( new Topic());
-		if( topic.getDescription() == null) {
-			// runtime exception handling in one line :-p 
-			throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Address not found" );
-		}
-		return topic.getDescription();
-	}
 	
 	
 }
