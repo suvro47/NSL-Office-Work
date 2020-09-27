@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.demo.model.OneToOne.Student;
+import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepo;
 
 @RestController
