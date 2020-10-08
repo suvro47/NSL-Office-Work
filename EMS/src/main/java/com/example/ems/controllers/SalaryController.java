@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -43,8 +44,8 @@ public class SalaryController {
 	}
 	
 	// Update employee with specified salary
-	@PostMapping("/salary/{sid}/employee/{eid}/update")
-	public ResponseEntity<Object> updateEmployeeAddres( @PathVariable long sid, @PathVariable long eid ){
+	@PutMapping("/employee/{eid}/salary/{sid}/update")
+	public ResponseEntity<Object> updateEmployee( @PathVariable long sid, @PathVariable long eid ){
 		
 		Optional<Employee> OpEmp = erepo.findById(eid); 
 		Optional<Salary> OpSalary = srepo.findById(sid);
@@ -60,6 +61,8 @@ public class SalaryController {
 		
 		return ResponseEntity.ok().body("Employee Salary updated successfully.");
 	}
+	
+	
 	
 	
 }

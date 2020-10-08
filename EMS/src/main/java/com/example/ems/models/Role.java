@@ -20,6 +20,7 @@ public class Role {
 	private String description;
 	
 	@ManyToMany(targetEntity=Employee.class)
+	@JsonIgnore
 	private List<Employee> employees;
 	
 	public List<Employee> getEmployees() {

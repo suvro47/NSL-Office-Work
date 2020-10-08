@@ -20,6 +20,7 @@ public class Salary {
 	private String description;
 	
 	@OneToMany(targetEntity=Employee.class, mappedBy="salary")
+	@JsonIgnore
 	List<Employee> employees;
 	
 	public List<Employee> getEmployees() {

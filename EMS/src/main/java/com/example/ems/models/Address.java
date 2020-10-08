@@ -6,37 +6,58 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long aid;
-	private long road_no;
-	private long sector_no;
+	private long roadNo;
+	private long sectorNo;
 	
+	@OneToOne(targetEntity=Employee.class)
+	@JsonIgnore
+	private Employee employee;
+
 	public long getAid() {
 		return aid;
 	}
+
 	public void setAid(long aid) {
 		this.aid = aid;
 	}
-	public long getRoad_no() {
-		return road_no;
+
+	public long getRoadNo() {
+		return roadNo;
 	}
-	public void setRoad_no(long road_no) {
-		this.road_no = road_no;
+
+	public void setRoadNo(long roadNo) {
+		this.roadNo = roadNo;
 	}
-	public long getSector_no() {
-		return sector_no;
+
+	public long getSectorNo() {
+		return sectorNo;
 	}
-	public void setSector_no(long sector_no) {
-		this.sector_no = sector_no;
+
+	public void setSectorNo(long sectorNo) {
+		this.sectorNo = sectorNo;
 	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	@Override
 	public String toString() {
-		return "Address [aid=" + aid + ", road_no=" + road_no + ", sector_no=" + sector_no + "]";
+		return "Address [aid=" + aid + ", roadNo=" + roadNo + ", sectorNo=" + sectorNo + "]";
 	}
+	
 	
 	
 	

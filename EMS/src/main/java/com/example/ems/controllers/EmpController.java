@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.ems.dao.AddressRepository;
 import com.example.ems.dao.EmployeeRepository;
-import com.example.ems.models.Address;
 import com.example.ems.models.Employee;
 
 @RestController
@@ -27,11 +26,6 @@ public class EmpController {
 	@Autowired
 	AddressRepository arepo;
 	
-	@GetMapping("/")
-	public String getIndex() {
-		return "EMS Running";
-	}
-	
 	@GetMapping("/employees")
 	public List<Employee> getEmployees(){
 		List<Employee> emp = erepo.findAll();
@@ -41,48 +35,40 @@ public class EmpController {
 	
 	// Add Employee
 	@PostMapping("/employee")
-	public ResponseEntity<Object> addRole( @RequestBody Employee emp ){
+	public ResponseEntity<Object> addEmployee( @RequestBody Employee emp ){
 		erepo.save(emp);
 		return ResponseEntity.ok().body("Employee created successfully."); 
 		// else return ResponseEntity.unprocessableEntity().body("Failed to create the Employee specified.");
 	}
 	
-	// Add Address info with specified Employee
-	@PostMapping("/employee/{eid}/address/add")
-	public  ResponseEntity<Object> addEmployeeAddress( @PathVariable long eid, @RequestBody Address address ){
-		
-		Optional<Employee> emp = erepo.findById(eid);
-		
-		if( ! emp.isPresent() ) {
-			return ResponseEntity.unprocessableEntity().body("Failed to add address with the Employee specified.");
+	// Get an employee with specified employee_id
+	@GetMapping("/employee/{eid}")
+	public Employee getUser(@PathVariable long eid){
+		Optional<Employee> OpEmp =  erepo.findById(eid);
+		if( ! OpEmp.isPresent() ) {
+			throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Not Found" );
 		}
 		
-		Employee employee = emp.get();
-		arepo.save(address);
-		employee.setAddress(address);
-        erepo.save(employee);	
-		return ResponseEntity.ok().body("Employee Address added successfully.");
-	}
-	
-	@PostMapping("/employee/{eid}/address/{aid}/update")
-	public  ResponseEntity<Object> updateEmployeeAddres( @PathVariable long eid, @PathVariable long aid ){
-		
-		Optional<Employee> OpEmp = erepo.findById(eid); 
-		Optional<Address> OpAdd = arepo.findById(aid);
-		
-		Address add = OpAdd.get();  // retrieve instance from record
-		Employee emp = OpEmp.get(); 
-		
-		emp.setAddress(add);
-		erepo.save(emp);
-		return ResponseEntity.ok().body("Employee address updated successfully.");
-		
+		Employee emp = OpEmp.get();
+		return emp;
 	}
 	
 	
-    /// address delete api	
+	@GetMapping("/employees/name/{name}")
+	public List<Employee> getEmployeesBaseOnName( @PathVariable String name){
+		List<Employee> emp = erepo.findEmployeeBasedOnName(name);
+		if( emp.size() == 0 ) throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Not Found" );
+		return emp;
+	}
 	
-
+	@GetMapping("/employees/sector/{sector_no}")
+	public List<Employee> getEmployeeBaseOnSectorNo( @PathVariable int sector_no){
+		List<Employee> emp = erepo.findEmployeeBasedOnSectorNo(sector_no);
+		System.out.println(emp.size());
+		if( emp.size() == 0 ) throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Not Found" );
+		return emp;
+	}
 	
-
+	
+	
 }
