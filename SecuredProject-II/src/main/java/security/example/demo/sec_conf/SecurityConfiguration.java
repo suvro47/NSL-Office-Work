@@ -21,12 +21,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService); //.getPasswordEncoder(); 
+		auth.userDetailsService(userDetailsService).passwordEncoder( new BCryptPasswordEncoder() );
 	}
-	
-	// Spring enforce the developer to store encoded password 
-	@Bean
-	public PasswordEncoder getPasswordEncoder() { return new BCryptPasswordEncoder(); }
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
